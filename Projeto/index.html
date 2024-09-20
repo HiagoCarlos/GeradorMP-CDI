@@ -1,0 +1,1355 @@
+<meta charset="UTF-8" /><meta content="width=device-width, initial-scale=1.0" name="viewport" /><title>Comitê de Intendência - Gerador de Mensagem</title><link href="https://fonts.googleapis.com" rel="preconnect" /><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" /><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #5a0404;
+        background-image: linear-gradient(135deg, #5a0404 0%, #490a0a 100%);
+
+    }
+
+
+    /* container e card */
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 100px auto 100px auto;
+        max-width: 750px;
+    }
+
+    .card-info {
+        --color: #e9e9e9;
+        background: var(--color);
+        color: var(--color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        border-radius: .7rem;
+        padding: 40px;
+    }
+
+    .top {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .img-background {
+        background-color: white;
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    /* titulos e textos */
+
+    .title-cdi {
+        background-color: #900002;
+        background-image: linear-gradient(297deg, #900002 0%, #500000 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: black;
+        text-shadow: 0px 4px 4px rgba(136, 0, 0, 0.212);
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.7rem;
+    }
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: #1d1d1d;
+        font-size: 1.4rem;
+        margin: 25px 0 25px 0;
+        letter-spacing: -.1px;
+    }
+
+    /* select e inputs */
+
+    #select_options,
+    #tipo_rebaixamento,
+    #tipo_expulsao,
+    #grupo_promocoes,
+    #grupo_reuniao,
+    #grupo_propostas {
+        padding: 15px;
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        letter-spacing: .5px;
+        font-size: .9rem;
+        color: #414141;
+        outline: none;
+        border: 1px solid rgba(102, 102, 102, 0.219);
+    }
+
+    #select_options option {
+        font-size: 1rem;
+    }
+
+    /* cards e containers */
+
+    .card {
+        display: none;
+        width: 100%;
+    }
+
+    .container_grad,
+    .container_meta,
+    .container_rebaixamento,
+    .container_expulsao,
+    .container_carta,
+    .container_reuniao,
+    .container_propostas,
+    .proposta-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        margin-top: 10px;
+        font-family: 'Poppins', sans-serif;
+        color: #1d1d1d;
+        background-color: rgb(248, 248, 248);
+        border-radius: 5px;
+        border: 1px solid rgb(216, 216, 216);
+        box-shadow: 15px 9px 31px -7px rgba(0, 0, 0, 0.1);
+    }
+
+    .container_grad h2,
+    .container_meta h2,
+    .container_rebaixamento h2,
+    .container_expulsao h2,
+    .container_carta h2,
+    .container_reuniao h2,
+    .container_propostas h2,
+    .proposta-container h3 {
+        margin-bottom: 25px;
+        font-size: 1.4rem;
+    }
+
+    /* forms e buttons */
+
+    #form_grad,
+    #form_meta,
+    #form_rebaixamento,
+    .container_expulsao_div,
+    .container_rebaixamento_licenca,
+    #form_ausencia,
+    #form_licenca,
+    #form_graduacao,
+    #form_sem_vinculo,
+    #form_boas_vindas,
+    #form_reuniao,
+    #form_propostas,
+    #form_promocoes,
+    #form_tre1_tre2,
+    #form_tre2_tre3,
+    #form_tre3_grad,
+    #form_grad_est,
+    #form_est_ministro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #form_reba_licenca,
+    #form_ausencia,
+    #form_licenca,
+    #form_graduacao,
+    #form_sem_vinculo {
+        border: none;
+    }
+
+    #form_tre1_tre2,
+    #form_tre2_tre3,
+    #form_tre3_grad,
+    #form_grad_est,
+    #form_est_ministro {
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 15px 9px 31px -7px rgba(0, 0, 0, 0.1);
+    }
+
+    #nick_grad,
+    #nick_meta,
+    #nick_rebaixamento,
+    #nick_ausencia,
+    #nick_licenca,
+    #nick_graduacao,
+    #nick_sem_vinculo,
+    #nick_boas_vindas,
+    #nick_reuniao,
+    #data_reuniao,
+    #hora_reuniao,
+    #nick_proposta,
+    #quantidade_propostas,
+    .input_form,
+    #nick_tre1_tre2,
+    #nick_tre2_tre3,
+    #nick_tre3_grad,
+    #nick_grad_est,
+    #nick_est_ministro {
+        padding: 10px;
+        width: 350px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid rgba(82, 82, 82, 0.411);
+        font-family: 'Poppins', sans-serif;
+        font-size: .9rem;
+        text-align: center;
+    }
+
+    .qnt-propostas {
+        margin-top: 20px;
+    }
+
+    .input_form {
+        margin: 10px 0;
+    }
+
+    .button_submit {
+        margin-top: 20px;
+        padding: 12px;
+        width: 100%;
+        cursor: pointer;
+        border: none;
+        background-color: #7e0606;
+        color: white;
+        font-family: 'Poppins';
+        border-radius: 5px;
+        transition: all 0.2s ease-in;
+    }
+
+    .button_submit:hover {
+        background-color: #8a1818;
+    }
+
+    .message {
+        display: none;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+    }
+
+    .extra-form {
+        display: none;
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+    /* alert */
+
+    .swal2-popup {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+    }
+
+    .dev {
+       color: white;
+       font-size: .8rem;
+       margin-top: 15px;
+       font-family: 'Poppins', sans-serif;
+    }
+</style><div class="container">
+	                
+	<div class="card-info">
+		                    
+		<div class="top">
+			                        
+			<div class="img-background">
+				                      <img src="https://www.habbo.com.br/habbo-imaging/badge/b22134s36104t27114s3901101792806cfdd525f8491204d658a9e53.gif" style="width: 50px; height: 50px;" />                  
+			</div>
+			                  <span class="title-cdi">Comitê de Intendência</span><br />              
+		</div>
+		                     
+		<div class="title">
+			                  <span>Gerador de Mensagem Privada</span>              
+		</div>
+		              <select id="select_options">
+            <option value="" selected="">Selecione o requerimento desejado</option>
+            <option value="carta_boas_vindas">Envio de Carta de Boas-vindas</option>
+            <option value="promocoes">Envio de Promoções</option>
+            <option value="grad_pendente">Envio de Graduação Pendente</option>
+            <option value="meta_nao_cumprida">Envio de Meta não Cumprida</option>
+            <option value="propostas">Envio de Propostas</option>
+            <option value="reuniao">Notificação de Reunião Geral</option>
+            <option value="noti_rebaixamento">Notificação de Rebaixamento</option>
+            <option value="noti_expulsao">Notificação de Expulsão</option>
+        </select>               
+		<!--        cards e formulários        -->               
+		<div class="card" id="carta_boas_vindas">
+			                        
+			<div class="container_carta">
+				                            
+				<h2>
+					      Envio de Carta de Boas-vindas      
+				</h2>
+				                             
+				<form id="form_boas_vindas">
+					                          <label for="nick_boas_vindas">Nick do membro:</label>                    <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_boas_vindas" id="nick_boas_vindas" type="text" />                          
+					<button class="button_submit" type="submit">
+						      Enviar      
+					</button>
+					                            
+				</form>
+				                        
+			</div>
+			                     
+		</div>
+		                     
+		<div class="card" id="promocoes">
+			                        
+			<div class="container_propostas">
+				                            
+				<h2>
+					      Promoções      
+				</h2>
+				                             
+				<form id="form_promocoes">
+					                                
+					<!--        grupo        -->                    <label style="font-weight: 600;" for="grupo_promocoes">Escolha o grupo:</label>                    <select id="grupo_promocoes" name="grupo_promocoes">
+                        <option value="3">Treinadores</option>
+                    </select>                            
+					<!--        checbkox        -->                     <label style="margin-top: 10px; font-weight: 600;" for="tipo_promocao">Escolha o tipo de                        promoção:</label>                          
+					<div id="checkboxes">
+						                              <input value="tre1_tre2" name="tre1_tre2" id="tre1_tre2" type="checkbox" /> <label for="tre1_tre2">TRE.1 > TRE.2</label> <br /> <input value="tre2_tre3" name="tre2_tre3" id="tre2_tre3" type="checkbox" /> <label for="tre2_tre3">TRE.2 > TRE.3</label> <br />                        <input value="tre3_grad" name="tre3_grad" id="tre3_grad" type="checkbox" /> <label for="tre3_grad">TRE.3 > Grad</label> <br /> <input value="grad_est" name="grad_est" id="grad_est" type="checkbox" /> <label for="grad_est">Grad > Est</label>                        <br />                        <input value="est_ministro" name="est_ministro" id="est_ministro" type="checkbox" /> <label for="est_ministro">Est > Ministro</label>                          
+					</div>
+					                                 
+					<!--        forms        -->                           
+					<div style="display:none;" class="extra-form" id="form_tre1_tre2">
+						                                    
+						<h3>
+							      Detalhes da promoção TRE.1 > TRE.2      
+						</h3>
+						                               <label for="nick_tre1_tre2">Nick do membro:</label>                        <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre1_tre2" id="nick_tre1_tre2" type="text" />                          
+					</div>
+					                                 
+					<div style="display:none;" class="extra-form" id="form_tre2_tre3">
+						                                    
+						<h3>
+							      Detalhes da promoção TRE.2 > TRE.3      
+						</h3>
+						                               <label for="nick_tre2_tre3">Nick do membro:</label>                         <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre2_tre3" id="nick_tre2_tre3" type="text" />                          
+					</div>
+					                                 
+					<div style="display:none;" class="extra-form" id="form_tre3_grad">
+						                                    
+						<h3>
+							      Detalhes da promoção TRE.3 > Grad      
+						</h3>
+						                               <label for="nick_tre3_grad">Nick do membro:</label>                         <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre3_grad" id="nick_tre3_grad" type="text" />                          
+					</div>
+					                                 
+					<div style="display:none;" class="extra-form" id="form_grad_est">
+						                                    
+						<h3>
+							      Detalhes da promoção Grad > Est      
+						</h3>
+						                               <label for="nick_grad_est">Nick do membro:</label>                         <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_grad_est" id="nick_grad_est" type="text" />                          
+					</div>
+					                                 
+					<div style="display:none;" class="extra-form" id="form_est_ministro">
+						                                    
+						<h3>
+							      Detalhes da promoção Est > Min      
+						</h3>
+						                               <label for="nick_est_ministro">Nick do membro:</label>                         <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_est_ministro" id="nick_est_ministro" type="text" />                          
+					</div>
+					                                 
+					<button style="display:none;" id="submit-btn" class="button_submit" type="submit">
+						                              Enviar                           
+					</button>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--        card envio de grad         -->              
+		<div class="card" id="grad_pendente">
+			                        
+			<div class="container_grad">
+				                            
+				<h2>
+					      Envio de Graduação Pendente      
+				</h2>
+				                             
+				<form id="form_grad">
+					                          <label for="nick_grad">Nick do membro:</label>                     <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_grad" id="nick_grad" type="text" />                          
+					<button class="button_submit" type="submit">
+						      Enviar      
+					</button>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--         card meta não cumprida         -->              
+		<div class="card" id="meta_nao_cumprida">
+			                        
+			<div class="container_meta">
+				                            
+				<h2>
+					      Envio de Meta Não Cumprida      
+				</h2>
+				                             
+				<form id="form_meta">
+					                          <label for="nick_meta">Nick do membro:</label>                     <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_meta" id="nick_meta" type="text" />                          
+					<button class="button_submit" type="submit">
+						      Enviar      
+					</button>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--        card de propostas        -->              
+		<div class="card" id="propostas">
+			                        
+			<div class="container_propostas">
+				                            
+				<h2>
+					      Envio de Propostas      
+				</h2>
+				                             
+				<form id="form_propostas">
+					                                
+					<!--        grupo        -->                    <label style="font-weight: 600;" for="grupo_propostas">Escolha o grupo:</label>                    <select id="grupo_propostas" name="grupo_propostas">
+                        <option value="3">Treinadores</option>
+                    </select>                           
+					<!--        form        -->                    <label class="qnt-propostas" for="quantidade_propostas">Quantidade de proposta</label>                    <input min="1" name="quantidade_propostas" id="quantidade_propostas" type="number" />                          
+					<button class="button_submit" id="btn_confirmar_quantidade" type="button">
+						                              Confirmar Quantidade                           
+					</button>
+					                                 
+					<div id="propostas_dinamicas">
+						           
+					</div>
+					                                 
+					<button style="display:none;" id="btn_enviar" type="submit">
+						                              Enviar                           
+					</button>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--        card reunião        -->              
+		<div class="card" id="reuniao">
+			                        
+			<div class="container_reuniao">
+				                            
+				<h2>
+					      Notificação de Reunião Geral      
+				</h2>
+				                             
+				<form id="form_reuniao">
+					                                
+					<!--        grupo        -->                    <label style="font-weight: 600;" for="grupo_reuniao">Escolha o grupo:</label>                    <select id="grupo_reuniao" name="grupo_reuniao">
+                        <option value="3">Treinadores</option>
+                    </select>                           
+					<!--        form        -->                    <label for="data_reuniao">Data</label>                     <input placeholder="Ex: 26/11/2024" name="data_reuniao" id="data_reuniao" type="date" />                     <label for="hora_reuniao">Horário</label>                     <input placeholder="Ex: 19:00BR / 23:00PT" name="hora_reuniao" id="hora_reuniao" type="text" />                          
+					<button class="button_submit" type="submit">
+						      Enviar      
+					</button>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--        card not rebaixamento        -->              
+		<div class="card" id="noti_rebaixamento">
+			                        
+			<div class="container_rebaixamento">
+				                            
+				<h2>
+					       Notificação de Rebaixamento      
+				</h2>
+				                             
+				<form id="form_rebaixamento">
+					                          <label for="tipo_rebaixamento">Escolha o tipo de rebaixamento:</label>                     <select name="tipo_rebaixamento" id="tipo_rebaixamento">
+                        <option value="">Selecione o tipo</option>
+                        <option value="rebaixado_licenca">Rebaixamento por não retornar de Licença</option>
+                    </select>                           
+					<!--         form adicional por não retornar de licença         -->                          
+					<div class="extra-form" id="form_reba_licenca">
+						                                    
+						<div class="container_rebaixamento_licenca">
+							                                        
+							<h3>
+								      Detalhes do Rebaixamento por Licença      
+							</h3>
+							                                   <label for="nick_rebaixamento">Nick do membro:</label>                             <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_rebaixamento" id="nick_rebaixamento" type="text" />                                  
+							<button class="button_submit" type="submit">
+								      Enviar      
+							</button>
+							                                    
+						</div>
+						                                
+					</div>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--        card expulsão        -->              
+		<div class="card" id="noti_expulsao">
+			                        
+			<div class="container_expulsao">
+				                            
+				<h2>
+					      Notificação de Expulsão      
+				</h2>
+				                             
+				<form id="form_expulsao">
+					                                
+					<div class="container_expulsao_div">
+						                              <label for="tipo_expulsao">Escolha o tipo de Expulsão:</label> <select name="tipo_expulsao" id="tipo_expulsao">
+                            <option value="">Selecione o tipo</option>
+                            <option value="ausencia">Expulsão por Ausência/Modo Offline/Perfil Oculto</option>
+                            <option value="licenca">Expulsão por Não Retornar de Licença</option>
+                            <option value="graduacao">Expulsão por Graduação Não Realizada</option>
+                            <option value="sem_vinculo">Expulsão por Estar Sem Vínculos</option>
+                        </select>                               
+						<!--         expulsão por ausência        -->                              
+						<div style="display:none;" class="extra-form" id="form_ausencia">
+							                                        
+							<h3>
+								      Detalhes da Expulsão por Ausência      
+							</h3>
+							                                   <label for="nick_ausencia">Nick do membro:</label>                            <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_ausencia" id="nick_ausencia" type="text" />                                  
+							<button class="button_submit" type="submit">
+								      Enviar      
+							</button>
+							                                    
+						</div>
+						                                     
+						<!--                  Expulsão por Não Retornar de Licença                  -->                              
+						<div style="display:none;" class="extra-form" id="form_licenca">
+							                                         
+							<h3>
+								                                      Detalhes da Expulsão por Não Retornar de Licença                                   
+							</h3>
+							                                  <label for="nick_licenca">Nick do membro:</label> <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_licenca" id="nick_licenca" type="text" />                                  
+							<button class="button_submit" type="submit">
+								                                      Enviar                                   
+							</button>
+							                                     
+						</div>
+						                                     
+						<!--        expulsão por grad não realizada         -->                              
+						<div style="display:none;" class="extra-form" id="form_graduacao">
+							                                        
+							<h3>
+								      Detalhes da Expulsão por Graduação Não Realizada      
+							</h3>
+							                                   <label for="nick_graduacao">Nick do membro:</label>                             <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_graduacao" id="nick_graduacao" type="text" />                                  
+							<button class="button_submit" type="submit">
+								      Enviar      
+							</button>
+							                                    
+						</div>
+						                                     
+						<!--        expulsão sem vinculos        -->                              
+						<div style="display:none;" class="extra-form" id="form_sem_vinculo">
+							                                        
+							<h3>
+								      Detalhes da Expulsão por Estar Sem Vínculos      
+							</h3>
+							                                   <label for="nick_sem_vinculo">Nick do membro:</label>                             <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_sem_vinculo" id="nick_sem_vinculo" type="text" />                                  
+							<button class="button_submit" type="submit">
+								      Enviar      
+							</button>
+							                                    
+						</div>
+						                                
+					</div>
+					                            
+				</form>
+				                        
+			</div>
+			                    
+		</div>
+		                     
+		<!--         área para exibir a mensagem gerada         -->              
+		<div class="message" id="fa-generated-message">
+			           
+		</div>
+		     
+	</div>
+	   
+	<p class="dev">
+		    Desenvolvido por Amortyzador. & hiagocarlos    
+	</p>
+</div>
+ <script>
+    async function enviarMensagem(formId, propostas) {
+        const form = document.getElementById(formId);
+        const formData = new FormData(form);
+        const nick = formData.get('nick_grad') || formData.get('nick_meta') || formData.get('nick_rebaixamento') || formData.get('nick_ausencia') || formData.get('nick_licenca')
+            || formData.get('nick_graduacao') || formData.get('nick_sem_vinculo') || formData.get('nick_boas_vindas') || formData.get('nick_reuniao') || formData.get('data_reuniao')
+            || formData.get('hora_reuniao') || formData.get('titulo_proposta_${i}') || formData.get('autor_proposta_${i}') || formData.get('numero_proposta_${i}') || formData.get('nick_proposta')
+
+        const tipoRebaixamento = formData.get('tipo_rebaixamento');
+        const tipoExpulsao = formData.get('tipo_expulsao');
+        const tipoPromocao = formData.get('tipo_promocao')
+        let mensagem = '';
+
+        if (formId === "form_grad") {
+            mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, foi analisado recentemente - após de alguns dias de sua admissão/promoção -, que você ainda [color=#850000][b]não[/b][/color] realizou sua graduação. Lembre-se que, segundo o nosso [b]regimento interno[/b], o treinador de nível 1 que não cumprir sua graduação dentre [b]7 dias[/b] será [b]expulso da companhia[/b] e punido com [b]-100 medalhas efetivas negativas.[/b] Os treinadores de nível 2 em diante sofrerão [b]um rebaixamento[/b], acrescentando-se [b]100 medalhas efetivas negativas.[/b]
+
+Para identificar os graduadores da companhia pelo nickname, veja na listagem de membros da companhia dos treinadores - em nosso fórum - os militares que ocupam o cargo de [b]graduador[/b], buscando assim realizar sua graduação, o mais rápido possível, para evitar punições.
+
+[center]Para conferir a listagem de membros: [img]https://i.servimg.com/u/f50/20/14/10/96/th/seta1010.gif[/img] [url=https://www.policiarcc.com/t35786-tre-listagem-de-membros][color=#850000][b]Clique aqui[/b][/color][/url][/center][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/ center][/quote][/justify][/td][/tr][/table]`;
+        } else if (formId === "form_meta") {
+            mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, foi analisado recentemente que sua meta não foi atingida, por isso, é dever do ministério ressaltar que aqueles que [color=#850000][b]não[/b][/color] cumprirem suas metas semanais, de acordo com o cargo, poderão sofrer as seguintes consequências:
+
+[b]Treinador(a) de nível um (01):[/b] Receberá -10 medalhas negativas e em caso de reincidência no mês ou de forma seguida, o membro será expulso da companhia;
+[b]Treinador(a) de nível dois (02):[/b]  Receberá -20 medalhas negativas e em caso de reincidência no mês ou de forma seguida, o membro será rebaixado na companhia, acarretando no recebimento de 30 (trinta) medalhas negativas;
+[b]Treinador(a) de nível três (03):[/b] Receberá -20 medalhas negativas e advertência interna;
+[b]Graduador(a):[/b] Receberá -25 medalhas negativas e advertência interna.
+
+Em caso de reincidência de não cumprimento de meta nos cargos de Treinador de Nível 3 e Graduador o mesmo sofrerá um rebaixamento e levará, respectivamente, 30 e 25 medalhas efetivas negativas, como está descrito no [url=https://www.policiarcc.com/t19063-tre-regimento-interno][b]REGIMENTO INTERNO[/b][/url].
+
+[center]Para conferir a porcentagem semanal da companhia: [img]https://i.servimg.com/u/f50/20/14/10/96/th/seta1010.gif[/img] [url=https://www.policiarcc.com/t35786-tre-listagem-de-membros][color=#850000][b]Clique aqui[/b][/color][/url][/center][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/center][/quote][/justify][/td][/tr][/table]`;
+        } else if (formId === "form_rebaixamento") {
+            if (tipoRebaixamento === "rebaixado_licenca") {
+                mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, em nome do [b]COMITÊ DE INTENDÊNCIA[/b] (CDI) venho por meio desta mensagem privada lhe informar que você foi [b]rebaixado[/b] na companhia dos treinadores, pelo fato de [color=#850000][b]não[/b][/color] informar o retorno da licença após [b]24 horas[/b] do término dela. De acordo com o regimento interno da companhia, caso o treinador não informe seu retorno após 24 horas do término da licença, será expulso da companhia e receberá [b]-100 medalhas[/b] caso seja treinador de nível 1 ou será rebaixado da companhia e receberá [b]-50 medalhas[/b] caso seja treinador de nível 2 acima.
+
+[center]Caso obtenha alguma prova para defender sua punição procure a liderança da companhia: [b]benjlfbaby, @Allyzon e Chanptu.[/b][/center][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/center][/quote][/justify][/td][/tr][/table]`;
+            }
+        } else if (formId === "form_expulsao") {
+            if (tipoExpulsao === "ausencia") {
+                mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, em nome do [b]COMITÊ DE INTENDÊNCIA[/b] (CDI) venho por meio desta mensagem privada lhe informar que você foi [b]expulso[/b] da companhia dos treinadores, pelo fato de [b]ausentar-se de suas obrigações na companhia sem licença.[/b] De acordo com o regimento interno da companhia, o treinador que for encontrado em modo offline, com perfil invisível ou se ausentar de suas obrigações por cinco (5) dias ou mais sem tirar licença da companhia cometendo crime de abandono de dever, será expulso da companhia e receberá [b]-100[/b] medalhas.
+
+[center]Caso obtenha alguma prova para defender sua punição procure a liderança da companhia: [b]benjlfbaby, @Allyzon e Chanptu.[/b][/center][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/center][/quote][/justify][/td][/tr][/table]`;
+            } else if (tipoExpulsao === "licenca") {
+                mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, em nome do [b]COMITÊ DE INTENDÊNCIA[/b] (CDI) venho por meio desta mensagem privada lhe informar que você foi [b]expulso[/b] da companhia dos treinadores, pelo fato de [b]não informar o retorno da licença após 24 horas do término dela[/b]. De acordo com o regimento interno da companhia, caso o treinador não informe seu retorno após 24 horas do término da licença, será expulso da companhia e receberá [b]-100[/b] medalhas.
+
+[center]Caso obtenha alguma prova para defender sua punição procure a liderança da companhia: [b]benjlfbaby, @Allyzon e Chanptu.[/b][/center][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/center][/quote][/justify][/td][/tr][/table]`;
+            } else if (tipoExpulsao === "graduacao") {
+                mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, em nome do [b]COMITÊ DE INTENDÊNCIA[/b] (CDI) venho por meio desta mensagem privada lhe informar que você foi [b]expulso[/b] da companhia dos treinadores, pelo fato de [b]não realizar a graduação no período de 7 dias[/b]. De acordo com o regimento interno da companhia, o treinador que não cumprir sua graduação dentre 7 dias sofrerá punições severas, incluindo a expulsão da companhia.
+
+[center]Caso obtenha alguma prova para defender sua punição procure a liderança da companhia: [b]benjlfbaby, @Allyzon e Chanptu.[/b][/center][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/center][/quote][/justify][/td][/tr][/table]`;
+            } else if (tipoExpulsao === "sem_vinculo") {
+                mensagem = `[table][tr][td][justify][quote][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+[scroll][blur][size=14][b][color=#850000]ATENÇÃO, TREINADOR(A) {USERNAME} ![/color][/b][/size][/blur][/scroll][/quote]
+[quote]Treinador(a) {USERNAME}, em nome do [b]COMITÊ DE INTENDÊNCIA[/b] (CDI) venho por meio desta mensagem privada lhe informar que você foi [b]expulso[/b] da companhia dos treinadores, pelo fato de [b]não possuir vínculos com a companhia dos treinadores.[/b] De acordo com o regimento interno da companhia, os treinadores com mais de uma semana na companhia que forem encontrados sem vínculos com a companhia (sem os grupos da companhia) serão imediatamente expulsos da companhia dos treinadores.
+
+[center]Caso obtenha alguma prova para defender sua punição procure a liderança da companhia: [b]benjlfbaby, @Allyzon e Chanptu.[/b][/quote]
+[quote][center][img]https://i.imgur.com/xtVxban.png[/img]
+Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/center][/quote][/justify][/td][/tr][/table]`;
+            }
+        } else if (formId === "form_boas_vindas") {
+            mensagem = `[table][tr][td][img]https://i.imgur.com/xJrjWHy.png[/img]
+[font=Poppins][size=14][img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img] [b]Saudações, treinador {USERNAME}![/b] [img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img]
+
+A liderança fica super contente pela sua entrada! Através da presente mensagem, gostaríamos de lhe dar [b]boas-vindas e algumas orientações básicas acerca do seu cargo[/b]. Leia tudo com muita atenção e, em caso de dúvidas, procure por um membro do ministério.
+
+[table style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; color: rgb(0, 0, 0);" bgcolor="#f2f2f2" border="1"]
+[tr style="transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Poppins][size=20][b][blur][color=black]PRIMEIROS PASSOS[/color][/blur][/b][/size][/font]
+
+[img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img] Para começar a aplicar aulas, [ color=#be3737][b]você deverá realizar a sua graduação dentro de um prazo de 07 (sete) dias[/b][/color]. Caso não cumpra com o prazo, será expulso da companhia. Confira quem são os nosso graduadores na listagem de membros, [url=https://www.policiarcc.com/t35786-tre-listagem-de-membros][color=#be3737][b][u]clicando aqui[/u][/b][/color][/url].
+
+[img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img] Você [color=#be3737][b]não poderá ausentar-se por 5 dias ou mais do Habbo[/b][/color], caso contrário será expulso. Portanto, caso necessite de tal ausência ou não obrigatoriedade em cumprir sua meta, solicite permissão de uma licença a qualquer um dos meus estagiários+!
+
+[img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img] De forma a evitar essas e outras [color=#be3737][b]punções[/b][/color], é de seu interesse que você leia, assim que possível, os dois principais documentos da companhia: [url=https://www.policiarcc.com/t19063-tre-regimento-interno][color=#be3737][b][u][TRE] Regimento Interno[/u][/b][/color][/url] e [url=https://www.policiarcc.com/t27584-tre-codigo-penal-interno][color=#be3737][b][u][TRE] Código Penal Interno[/u][/b][/color][/url].
+
+[img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img] Na sua [color=#be3737][b]primeira semana na companhia[/b][/color], você estará em casos especiais. Em outras palavras, [color=#be3737][b]não precisará cumprir com sua meta[/b][/color]. Entretanto, é recomendável que busque se dedicar desde já; será de grande importância para futuras promoções.
+
+[img(auto,13px)]https://i.imgur.com/xSZoN56.png[/img] Além das documentações, a liderança te disponibiliza [color=#be3737][b]vários tutoriais[/b][/color] para que tenha um ótimo rendimento aqui dentro, te auxiliando em envio de projetos e até a como se destacar na companhia! Poderá acessá-los [url=https://www.policiarcc.com/t33660-tre-tutoriais-gerais][color=#be3737][b][u]clicando aqui[/u][/b][/color][/url].
+
+[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 450; height: 36px; width: -webkit-fill-available; max-width: 750px; border-radius: 12px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="#aa3131"]
+[tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][color=white]Para ter mais orientações sobre suas responsabilidades como treinador de nível 1, clique [url=https://docs.google.com/presentation/d/1a4-o3PsyF29-Y38ewHnxJXD32Ty5Gx6k6tIA9JGZw2A/edit#slide=id.p3][color=white][b]AQUI![/b][/color][/url][/color][/font][/size][/td][/tr][/table]
+Fique atento às suas mensagens privadas, todas as novidades e informações importantes serão divulgadas por aqui!
+Esperamos que goste da companhia e se sinta em casa conosco.[/size][/font]
+[/td][/tr][/table]
+[center][img]https://i.servimg.com/u/f70/20/29/77/56/div_tr11.png[/img]
+[font=Poppins][size=10][b]Desenvolvido por brooklyng e reformulado por Granno.
+Todos os direitos reservados à companhia dos Treinadores.[/b][/size][/font][/center]`;
+        } else if (formId === "form_reuniao") {
+            const dataReuniao = formData.get('data_reuniao');
+            const horaReuniao = formData.get('hora_reuniao');
+            const horarios = horaReuniao.split('/');
+            const horaBR = horarios[0].trim();
+            const [horaBRPart, minutoBR] = horaBR.slice(0, 5).split(':').map(Number);
+            let horaPT = new Date();
+            horaPT.setHours(horaBRPart + 4, minutoBR);
+            horaPT = `${horaPT.getHours().toString().padStart(2, '0')}:${horaPT.getMinutes().toString().padStart(2, '0')}PT`;
+            const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            const dataParts = dataReuniao.split('-');
+            const year = dataParts[0];
+            const month = meses[parseInt(dataParts[1]) - 1];
+            const day = dataParts[2];
+            const dataFormatada = `${day} ${month} ${year}`;
+            mensagem = `[table][tr][td][img]https://i.imgur.com/gJJ4Kae.png[/img]
+
+[font=Lexend Deca][size=28][blur][b][color=maroon]REUNIÃO GERAL[/color][/b][/blur][/size][/font]
+
+[font=Poppins][size=14]Saudações, tre inador [b]{USERNAME}[/b]!
+
+A próxima reunião geral da [blur][color=maroon][b]Companhia dos Treinadores[/b][/color][/blur] está marcada! A liderança te convida a participar desse momento, onde serão apresentadas as [b]últimas novidades, ideias e promoções[/b].
+Além disso, todos os membros estão convidados a participar do [b]evento realizado pelo Comitê de Marketing[/b], logo após o fim da reunião.[/size][/font]
+
+[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 400; height: 20px; width: -webkit-fill-available; max-width: 550px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; RCC - SÓ A VERDADEIRA!: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
+[tr style="transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"]
+[size=14][font=Poppins][color=white]A reunião acontecerá no dia [b]${dataFormatada}[/b] às [b]${horaBR}[/b] (BR) / [b]${horaPT}[/b] (PT).[/color][/font][/size][/td][/tr][/table][font=Poppins][size=14]A sua presença é muito importante nesse momento de convívio e transparência da companhia![/size][/font]
+
+[center][table style="transition: none 0ms ease 0s; width: -webkit-fill-available; color: rgb(0, 0, 0);" bgcolor="#f2f2f2" border="1"][tr][td][img(auto,40px)]https://static.vecteezy.com/system/resources/previews/022/101/124/original/whatsapp-logo-transparent-free-png.png[/img]
+[font=Poppins][size=14]Faça parte do nosso grupo do WhatsApp!
+[url=https://chat.whatsapp.com/DEzl7I33HeVCKNFptNZHa6][b][color=black]Clique aqui[/color][/b][/url] para entrar no grupo e interagir conosco.[/size][/font][/td][/tr][/table][/center][/td][/tr][/table]
+[center][img]https://i.imgur.com/CLtu2PT.png[/img]
+[b][font=Poppins][size=12]Atenciosamente, Comitê de Marketing
+Companhia dos Treinadores
+[color=maroon]#ImpérioVermelho[/color][/size][/font][/b][/center]`;
+        } else if (formId === "form_propostas") {
+            let propostasBBcode = "";
+            const quantidade = formData.get('quantidade_propostas');
+
+            for (let i = 1; i <= quantidade; i++) {
+                const tipo = formData.get(`tipo_proposta_${i}`) === 'sugestao' ? 'Sugestão' : 'Projeto';
+                const numero = formData.get(`numero_proposta_${i}`) || i;
+                const titulo = formData.get(`titulo_proposta_${i}`) || `Título Proposta ${i}`;
+                const autor = formData.get(`autor_proposta_${i}`) || 'Autor Desconhecido';
+                const corpo = formData.get(`corpo_proposta_${i}`) || 'Corpo não fornecido';
+
+                propostasBBcode += `[table class='rank' style='transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;' bgcolor='maroon']
+[tr style='transition: none 0ms ease 0s; border: none; box-sizing: border-box; margin: 0px; padding: 0px;'][td style='transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;'][size=12][font=Poppins][blur][color=white]PROPOSTA ${numero} - ${titulo}[/color][/blur][/font][/size][/td][/tr][/table]
+[spoiler=Ordem do Projeto][left][b]Desenvolvido por:[/b] ${autor}
+[b]N° do projeto/sugestão:[/b] ${numero}
+[b]Tipo de envio:[/b] ( ${tipo === 'Sugestão' ? '[b]x[/b]' : ' '} ) Sugestão ( ${tipo === 'Projeto' ? '[b]x[/b]' : ' '} ) Projeto
+
+[b]Corpo da proposta:[/b] ${corpo}[/left]
+[/spoiler]\n`;
+            }
+
+
+            mensagem = `[table][tr][td][center][img]https://i.imgur.com/gJJ4Kae.png[/img][/center]
+
+[font=Lexend Deca][size=28][blur][b][color=maroon]PROJETOS APROVADOS[/color][/b][/blur][/size][/font]
+
+[font=Poppins][size=14]Saudações, treinador [b]{USERNAME}[/b]!
+
+A liderança e o ministério da [blur][color=maroon][b]Companhia dos Treinadores[/b][/color][/blur], por meio do [b]Comitê de Marketing[/b], anuncia os projetos aprovados da semana![/size][/font]
+
+${propostasBBcode}
+
+[table style='transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; color: rgb(0, 0, 0);' bgcolor='#f2f2f2' border='1']
+[tr style='transition: none 0ms ease 0s; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;'][td style='transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;'][font=Lexend Deca][size=18][blur][color=maroon][b]CONSIDERAÇÕES[/b][/color][/blur][/size][/font]
+
+[font=Poppins][size=13]Sua participação no desenvolvimento da companhia é [b]essencial[/b]. Ao encontrar algum aspecto que[b] pode ou precisa ser melhorado[/b], envie a sua sugestão no [b]tópico da ouvidoria[/b]. Caso tenha dúvidas sobre a elaboração de um projeto, entre em contato com algum membro mais [b]experiente [/b]na companhia.
+Para acessar o tópico, [b][url=https://www.policiarcc.com/t35525-tre-ouvidoria]clique aqui.[/url][/b][/size][/font]
+
+[center][table style='transition: none 0ms ease 0s; width: -webkit-fill-available; color: rgb(0, 0, 0);' bgcolor='#ffffff' border='1']
+[tr][td][img]https://i.imgur.com/JuvGiy4.png[/img]
+
+[font=Poppins][size=14]Faça parte do nosso grupo do WhatsApp!
+[url=https://chat.whatsapp.com/DEzl7I33HeVCKNFptNZHa6][b][color=black]Clique aqui[/color][/b][/url] para entrar no grupo e interagir conosco.[/size][/font][/td][/tr][/table][/center][/td][/tr][/table]
+[center][img]https://i.imgur.com/CLtu2PT.png[/img]
+[b][font=Poppins][size=12]Atenciosamente, Comitê de Marketing
+Companhia dos Treinadores
+[color=maroon]#ImpérioVermelho[/color][/size][/font][/b][/center][/td][/tr][/table]`;
+        }
+        else if (formId === "form_promocoes") {
+
+            const tipoPromocao = [];
+
+            if (formData.get('tre1_tre2')) {
+                tipoPromocao.push('tre1_tre2');
+            }
+            if (formData.get('tre2_tre3')) {
+                tipoPromocao.push('tre2_tre3');
+            }
+            if (formData.get('tre3_grad')) {
+                tipoPromocao.push('tre3_grad');
+            }
+            if (formData.get('grad_est')) {
+                tipoPromocao.push('grad_est');
+            }
+            if (formData.get('est_ministro')) {
+                tipoPromocao.push('est_ministro');
+            }
+
+            const nickTre1Tre2 = formData.get('nick_tre1_tre2');
+            const nickTre2Tre3 = formData.get('nick_tre2_tre3');
+            const nickTre3Grad = formData.get('nick_tre3_grad');
+            const nickGradEst = formData.get('nick_grad_est');
+            const nickEstMinistro = formData.get('nick_est_ministro');
+
+            let mensagemCombinada = `
+   [table]
+[tr][td][center][img]https://i.imgur.com/LsJYXq9.png[/img][/center]
+
+[font=Lexend Deca][size=28][blur][b][color=maroon]PROMOVIDOS DA SEMANA[/color][/b][/blur][/size][/font]
+
+[font=Poppins][size=14]Saudações, treinador [b]{USERNAME}[/b]!
+
+A liderança e o ministério da [blur][color=maroon][b]Companhia dos Treinadores[/b][/color][/blur], por meio do [b]Comite de Intendência[/b], anuncia os promovidos da semana!
+
+Desde já, [b]parabenizamos todos os treinadores[/b] que aplicaram diversos treinos ao decorrer da semana e mais uma vez conseguiram manter nosso título de melhor companhia desta instituição militar. Além disso, caso você não tenha sido promovido, não desanime! [b]Mantenha o padrão[/b] que, em breve, também receberá esse reconhecimento.[/size][/font]
+
+  `;
+
+            tipoPromocao.forEach((opcao) => {
+                switch (opcao) {
+                    case 'tre1_tre2':
+                        const nicksTre1Tre2 = nickTre1Tre2.split('/')
+                        mensagemCombinada += `[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
+[tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]TRE.1 » TRE.2[/color][/blur][/font][/size][/td]
+[/tr]
+[/table][font=Poppins]${nicksTre1Tre2.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre1Tre2.join(' / ')}\n[/font]`;
+                        break;
+                    case 'tre2_tre3':
+                        const nicksTre2Tre3 = nickTre2Tre3.split('/')
+                        mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
+[tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]TRE.2 » TRE.3[/color][/blur][/font][/size][/td]
+[/tr]
+[/table][font=Poppins]${nicksTre2Tre3.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre2Tre3.join(' / ')}\n[/font]`;
+                        break;
+                    case 'tre3_grad':
+                        const nicksTre3Grad = nickTre3Grad.split('/')
+                        mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
+[tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]TRE.3 » Graduador[/color][/blur][/font][/size][/td]
+[/tr]
+[/table][font=Poppins]${nicksTre3Grad.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre3Grad.join(' / ')}\n[/font]`;
+                        break
+                    case 'grad_est':
+                        const nicksGradEst = nickGradEst.split('/')
+                        mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
+[tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]Graduador » Estagiário[/color][/blur][/font][/size][/td]
+[/tr]
+[/table][font=Poppins]${nicksGradEst.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksGradEst.join(' / ')}\n[/font]`;
+                        break
+                    case 'est_ministro':
+                        const nicksEstMinistro = nickEstMinistro.split('/')
+                        mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
+[tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]Estagiário » Ministro[/color][/blur][/font][/size][/td]
+[/tr]
+[/table][font=Poppins]${nicksEstMinistro.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksEstMinistro.join(' / ')}\n[/font]`;
+                        break
+                }
+            });
+
+            mensagemCombinada += `
+    \n[table style="transition: none 0ms ease 0s; border-collapse: collapse; width: -webkit-fill-available; color: rgb(0, 0, 0);" bgcolor="#f2f2f2" border="1"]
+[tr style="transition: none; border-top: none; border-right: none; border-bottom: 1px solid rgb(208, 208, 208); border-left: none; border-image: initial; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; border-width: initial; border-style: none; border-color: initial; box-sizing: border-box; margin: 0px; padding: 15px;"][font=Lexend Deca][size=18][blur][color=maroon][b]ORIENTAÇÕES[/b][/color][/blur][/size][/font]
+
+[font=Poppins][size=13]É de suma importância que os [b]novos TRE.2 e TRE.3 procurem os graduadores[/b] o mais breve possível.
+
+Os [b]promovidos a TRE.2[/b] deverão pedir para entrar nos grupos [b][TRE] Treinamentos Rápidos, [TRE] Base de Treinos e [TRE] Treino de Agilidade[/b].
+Os [b]promovidos a TRE.3[/b] deverão pedir para entrar no grupo [b][TRE] Sala Técnica [CDI][/b].
+Já os [b]promovidos a graduador[/b], deverão pedir para entrar no grupo [b][TRE] Graduadores[/b].
+Todos os grupos podem ser encontrados na conta [b]Emblemas_TRE[/b].
+
+Além disso, os [b]novos TRE.2 devem realizar a capacitação técnica de wired[/b], que é um requisito para uma futura promoção a TRE.3.
+Para a realizar, basta ler a apostila e obter a aprovação na parte teórica através do formulário disponível no tópico [url=https://www.policiarcc.com/t36543-tre-2-apostila-capacitacao-de-wireds][b][color=black][TRE.2] Apostila - Capacitação de Wireds[/color][/b][/url]. Após a aprovação, procure por um TRE.3 para realizar a parte prática.[/size][/font]
+[center]
+[table style="transition: none 0ms ease 0s; width: -webkit-fill-available; color: rgb(0, 0, 0);" bgcolor="#ffffff" border="1"]
+[tr][td][img]https://i.imgur.com/JuvGiy4.png[/img]
+
+[font=Poppins][size=14]Faça parte do nosso grupo do WhatsApp!
+[url=https://chat.whatsapp.com/DEzl7I33HeVCKNFptNZHa6][b][color=black]Clique aqui[/color][/b][/url] para entrar no grupo e interagir conosco.[/size][/font][/td]
+[/tr]
+[/table]
+[/center]
+[/td]
+[/tr]
+[/table]
+[center][img]https://i.imgur.com/xtVxban.png[/img]
+[font=Poppins]Atenciosamente,
+[size=13]Companhia dos [color=#850000][b]Treinadores[/b][/color]
+Comitê de [color=#850000][b]Intendência[/b][/color][/size][/font][/center]
+[/td]
+[/tr]
+[/table]
+  `;
+
+            if (mensagemCombinada) {
+                mensagem = mensagemCombinada;
+            } else {
+                alert("error")
+            }
+        }
+
+        try {
+            let respostaHtml = await fetch('https://testes-hiago-carlos.forumeiros.com/privmsg', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'folder': '',
+                    'mode': 'post',
+                    'new_pm_time': Math.floor(Date.now() / 1000).toString()
+                })
+            });
+
+            const html = await respostaHtml.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const authElements = doc.querySelectorAll('input[name="auth[]"]');
+            const auths = Array.from(authElements).map(el => el.value);
+
+            let dadosFormulario = new FormData();
+            const grupoPromocoes = document.getElementById('grupo_promocoes').value;
+            const grupoReuniao = document.getElementById('grupo_reuniao').value;
+            const grupoPropostas = document.getElementById('grupo_propostas').value;
+            if (nick) {
+                //nick especifico
+                if (nick.includes('/')) {
+                    const nicks = nick.split('/');
+                    nicks.forEach((nickIndividual) => {
+                        dadosFormulario.append('username[]', nickIndividual.trim());
+                    });
+                } else {
+                    dadosFormulario.append('username[]', nick);
+                }
+            } else if (grupoPromocoes) {
+                dadosFormulario.append('usergroup', grupoPromocoes);
+            } else if (grupoReuniao) {
+                dadosFormulario.append('usergroup', grupoReuniao);
+            } else if (grupoPropostas) {
+                dadosFormulario.append('usergroup', grupoPropostas);
+            } else {
+                alert('error')
+            }
+
+            dadosFormulario.append('subject',
+                formId === "form_boas_vindas" ? "[TRE] Carta de Boas-vindas" :
+                    formId === "form_grad" ? "[CDI] GRADUAÇÃO PENDENTE [TRE]" :
+                        formId === "form_meta" ? "[CDI] META NÃO CUMPRIDA [TRE]" :
+                            formId === "form_reuniao" ? "[TRE] REUNIÃO GERAL [CDI]" :
+                                formId === "form_propostas" ? "[CDI] PROJETOS APROVADOS [TRE]" :
+                                    formId === "form_rebaixamento" && tipoRebaixamento === "rebaixado_licenca" ? "[CDI] REBAIXAMENTO POR LICENÇA NÃO INFORMADA [TRE]" :
+                                        formId === "form_expulsao" && tipoExpulsao === "ausencia" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                            formId === "form_expulsao" && tipoExpulsao === "licenca" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                                formId === "form_expulsao" && tipoExpulsao === "graduacao" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                                    formId === "form_expulsao" && tipoExpulsao === "sem_vinculo" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                                        formId === "form_promocoes" ? "[CDI] PROMOÇÕES [TRE]" :
+                                                            "[CDI] NOTIFICAÇÃO GERAL [TRE]"
+            );
+
+            dadosFormulario.append('message', mensagem);
+            auths.forEach(auth => dadosFormulario.append('auth[]', auth));
+            dadosFormulario.append('folder', '');
+            dadosFormulario.append('mode', 'post');
+            dadosFormulario.append('new_pm_time', Math.floor(Date.now() / 1000).toString());
+            dadosFormulario.append('lt', '');
+            dadosFormulario.append('post', 'Enviar');
+            dadosFormulario.append('disable_html', 'on'); // Garante que o BBCode seja enviado
+
+            let respostaEnvio = await fetch('https://testes-hiago-carlos.forumeiros.com/privmsg', {
+                method: 'POST',
+                body: dadosFormulario,
+                credentials: 'include'
+            });
+
+            if (respostaEnvio.ok) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Mensagem enviada!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                // Resetar formulário após 3 segundos
+                setTimeout(() => {
+                    document.getElementById(formId).reset();
+                }, 3000);
+            } else {
+                alert('Erro ao enviar mensagem. Tente novamente.');
+            }
+        } catch (erro) {
+            alert('Erro ao enviar mensagem. Tente novamente.');
+        }
+    }
+
+    function fill_boas_vindas(e) {
+        e.preventDefault();
+        const isValid = $("#form_boas_vindas").find("input").filter(function () { return this.value === ""; }).length === 0;
+        if (isValid) {
+            enviarMensagem('form_boas_vindas');
+        } else {
+            alert('Preencha todos os campos!');
+        }
+    }
+
+    function fill_graduation(e) {
+        e.preventDefault();
+        const isValid = $("#form_grad").find("input").filter(function () { return this.value === ""; }).length === 0;
+        if (isValid) {
+            enviarMensagem('form_grad');
+        } else {
+            alert('Preencha todos os campos!');
+        }
+    }
+
+    function fill_promocao(e) {
+        e.preventDefault();
+
+        const selectedCheckboxes = $(":checkbox:checked").map(function () {
+            return $(this).attr('id');
+        }).get();
+
+        if (selectedCheckboxes.length === 0) {
+            alert('Selecione pelo menos uma opção de promoção.');
+            return;
+        }
+
+        let allFormsValid = true;
+
+        selectedCheckboxes.forEach(checkboxId => {
+            const formId = `#form_${checkboxId} `;
+            const isFormValid = $(formId).find("input, select, textarea").filter(function () {
+                return this.value.trim() === "";
+            }).length === 0;
+
+            if (!isFormValid) {
+                allFormsValid = false;
+            }
+        });
+
+        if (allFormsValid) {
+            enviarMensagem('form_promocoes');
+        } else {
+            alert('Preencha todos os campos dos formulários selecionados!');
+        }
+    }
+
+    $("#form_promocoes").on('submit', fill_promocao);
+
+    function fill_meta(e) {
+        e.preventDefault();
+        const isValid = $("#form_meta").find("input").filter(function () { return this.value === ""; }).length === 0;
+        if (isValid) {
+            enviarMensagem('form_meta');
+        } else {
+            alert('Preencha todos os campos!');
+        }
+    }
+
+    function fill_reuniao(e) {
+        e.preventDefault();
+        const isValid = $("#form_reuniao").find("input").filter(function () { return this.value === ""; }).length === 0;
+        if (isValid) {
+            enviarMensagem('form_reuniao');
+        } else {
+            alert('Preencha todos os campos!');
+        }
+    }
+
+    function fill_rebaixamento(e) {
+        e.preventDefault();
+        const isValid = $("#form_rebaixamento").find("input, select").filter(function () { return this.value === ""; }).length === 0;
+        if (isValid) {
+            enviarMensagem('form_rebaixamento');
+        } else {
+            alert('Preencha todos os campos!');
+        }
+    }
+
+
+    function fill_expulsao(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('form_expulsao');
+        const tipoExpulsao = form.querySelector('#tipo_expulsao').value.trim();
+
+
+        function isFieldFilled(selector) {
+            const field = form.querySelector(selector);
+            return field && field.value.trim().length > 0;
+        }
+
+        let isValid = false;
+
+        switch (tipoExpulsao) {
+            case 'ausencia':
+                isValid = isFieldFilled('#nick_ausencia');
+                break;
+            case 'licenca':
+                isValid = isFieldFilled('#nick_licenca');
+                break;
+            case 'graduacao':
+                isValid = isFieldFilled('#nick_graduacao');
+                break;
+            case 'sem_vinculo':
+                isValid = isFieldFilled('#nick_sem_vinculo');
+                break;
+            default:
+                alert('Selecione um tipo de expulsão válido!');
+                return;
+        }
+
+        if (isValid) {
+            enviarMensagem('form_expulsao');
+        } else {
+            alert('Preencha todos os campos!');
+        }
+    }
+
+    $("#form_boas_vindas").on('submit', fill_boas_vindas);
+    $("#form_grad").on('submit', fill_graduation);
+    $("#form_meta").on('submit', fill_meta);
+    $("#form_reuniao").on('submit', fill_reuniao);
+    $("#form_rebaixamento").on('submit', fill_rebaixamento);
+    $("#form_expulsao").on('submit', fill_expulsao);
+
+
+
+    $(document).ready(function () {
+        $("#select_options").on('change', function () {
+            $(".card").hide();
+            let selected = $(this).val();
+            if (selected) {
+                $(`#${selected} `).show();
+            }
+        });
+
+        // promoções
+
+        $(":checkbox").on('change', function () {
+            let checkboxId = $(this).attr('id');
+            let formId = "#form_" + checkboxId;
+            if ($(this).is(':checked')) {
+                $(formId).show();
+            } else {
+                $(formId).hide();
+            }
+            if ($(":checkbox:checked").length >= 1) {
+                $("#submit-btn").show();
+            } else {
+                $("#submit-btn").hide();
+            }
+        });
+
+        // rebaixamento
+
+        $("#tipo_rebaixamento").on('change', function () {
+            let selected = $(this).val();
+            if (selected === "rebaixado_licenca") {
+                $("#form_reba_licenca").show();
+            } else {
+                $("#form_reba_licenca").hide();
+            }
+        });
+
+        // expulsao
+
+        $("#tipo_expulsao").on('change', function () {
+            let selected = $(this).val();
+            $(".extra-form").hide();
+            switch (selected) {
+                case "ausencia":
+                    $("#form_ausencia").show();
+                    break;
+                case "licenca":
+                    $("#form_licenca").show();
+                    break;
+                case "graduacao":
+                    $("#form_graduacao").show();
+                    break;
+                case "sem_vinculo":
+                    $("#form_sem_vinculo").show();
+                    break;
+                default:
+
+                    break;
+            }
+        });
+
+        // propostas
+        let propostas = [];
+
+        function criarProposta(indice, quantidade) {
+            const propostaDiv = document.createElement('div');
+            propostaDiv.id = `proposta_${indice} `;
+            propostaDiv.style.display = indice === 1 ? 'block' : 'none';
+
+            propostaDiv.innerHTML = `
+                <div class="proposta-container" >
+                    <h3>Proposta ${indice}</h3>
+                    <label for="titulo_proposta_${indice}">Título:</label>
+                    <input type="text" id="titulo_proposta_${indice}" class="input_form" name="titulo_proposta_${indice}"/>
+                    
+                    <label for="numero_proposta_${indice}">Número:</label>
+                    <input type="number" id="numero_proposta_${indice}" class="input_form" name="numero_proposta_${indice}" min="1"/>
+                    
+                    <label for="tipo_proposta_${indice}">Tipo:</label>
+                    <select id="tipo_proposta_${indice}" name="tipo_proposta_${indice}" class="input_form" style="text-align: left">
+                        <option value="sugestao">Sugestão</option>
+                        <option value="projeto">Projeto</option>
+                    </select>
+                    
+                    <label for="autor_proposta_${indice}">Autor:</label>
+                    <input type="text" id="autor_proposta_${indice}" class="input_form" name="autor_proposta_${indice}" />
+                        
+                    <label for="corpo_proposta_${indice}">Corpo do Projeto:</label>
+                    <textarea id="corpo_proposta_${indice}" name="corpo_proposta_${indice}" class="input_form" style="resize: vertical"></textarea>
+                </div >
+                    `;
+
+            if (indice < quantidade) {
+                const btnProxima = document.createElement('button');
+                btnProxima.type = 'button';
+                btnProxima.classList.add('button_submit');
+                btnProxima.textContent = `Próxima(${indice + 1})`;
+                btnProxima.addEventListener('click', function () {
+                    if (validarProposta(indice)) {
+                        trocarProposta(indice, quantidade);
+                    }
+                });
+                propostaDiv.appendChild(btnProxima);
+            } else {
+                const btnFinalizar = document.createElement('button');
+                btnFinalizar.type = 'button';
+                btnFinalizar.textContent = 'Enviar';
+                btnFinalizar.classList.add('button_submit');
+                btnFinalizar.addEventListener('click', async function () {
+                    if (validarProposta(indice)) {
+                        const propostas = coletarTodasPropostas(quantidade);
+                        try {
+                            await enviarMensagem('form_propostas', propostas);
+                        } catch (erro) {
+                            alert('Erro ao enviar propostas!');
+                        }
+                    }
+                });
+                propostaDiv.appendChild(btnFinalizar);
+            }
+
+            return propostaDiv;
+        }
+
+
+        function validarProposta(indice) {
+            const propostaDiv = document.getElementById(`proposta_${indice} `);
+            const isValid = Array.from(propostaDiv.querySelectorAll('input, select, textarea')).every(input => input.value.trim() !== '');
+
+            if (!isValid) {
+                alert('Preencha todos os campos!');
+            }
+
+            return isValid;
+        }
+
+        function trocarProposta(indiceAtual, quantidade) {
+            document.getElementById(`proposta_${indiceAtual} `).style.display = 'none';
+            document.getElementById(`proposta_${indiceAtual + 1} `).style.display = 'block';
+        }
+
+        function coletarTodasPropostas(quantidade) {
+            let todasPropostas = '';
+
+            for (let i = 1; i <= quantidade; i++) {
+                const tituloInput = document.getElementById(`titulo_proposta_${i} `);
+                const numeroInput = document.getElementById(`numero_proposta_${i} `);
+                const tipoSelect = document.getElementById(`tipo_proposta_${i} `);
+                const autorInput = document.getElementById(`autor_proposta_${i} `);
+                const corpoTextarea = document.getElementById(`corpo_proposta_${i} `);
+
+                if (tituloInput && numeroInput && tipoSelect && autorInput && corpoTextarea) {
+                    const titulo = tituloInput.value;
+                    const numero = numeroInput.value;
+                    const tipo = tipoSelect.value;
+                    const autor = autorInput.value;
+                    const corpo = corpoTextarea.value;
+
+                    todasPropostas += `
+                Proposta ${i}:
+                Título: ${titulo}
+                Número: ${numero}
+                Tipo: ${tipo}
+                Autor: ${autor}
+                Corpo: ${corpo}
+
+            `;
+                }
+            }
+
+            return todasPropostas;
+        }
+        document.getElementById('btn_confirmar_quantidade').addEventListener('click', function () {
+            const quantidade = parseInt(document.getElementById('quantidade_propostas').value);
+            const propostasDinamicas = document.getElementById('propostas_dinamicas');
+            propostasDinamicas.innerHTML = '';
+            document.getElementById('btn_enviar').style.display = 'none';
+
+            for (let i = 1; i <= quantidade; i++) {
+                propostasDinamicas.appendChild(criarProposta(i, quantidade));
+            }
+        });
+
+    }
+
+    );
+</script>
