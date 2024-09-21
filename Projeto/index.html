@@ -282,9 +282,7 @@
     }
 </style>
 <div class="container">
-
     <div class="card-info">
-
         <div class="top">
 
             <div class="img-background">
@@ -308,179 +306,140 @@
             <option value="noti_rebaixamento">Notificação de Rebaixamento</option>
             <option value="noti_expulsao">Notificação de Expulsão</option>
         </select>
-        <!--        cards e formulários        -->
+
+        <!--  cards e formulários  -->
         <div class="card" id="carta_boas_vindas">
-
             <div class="container_carta">
-
-                <h2>
-                    Envio de Carta de Boas-vindas
-                </h2>
+                <h2>Envio de Carta de Boas-vindas</h2>
 
                 <form id="form_boas_vindas">
-                    <label for="nick_boas_vindas">Nick do membro:</label> <input
-                        placeholder="Ex: hiagocarlos / Amortyzador." name="nick_boas_vindas" id="nick_boas_vindas"
+                    <label for="nick_boas_vindas">Nick do membro:</label>
+                    <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_boas_vindas" id="nick_boas_vindas"
                         type="text" />
                     <button class="button_submit" type="submit">
                         Enviar
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <div class="card" id="promocoes">
-
             <div class="container_propostas">
-
-                <h2>
-                    Promoções
-                </h2>
+                <h2>Promoções</h2>
 
                 <form id="form_promocoes">
 
-                    <!--        grupo        --> <label style="font-weight: 600;" for="grupo_promocoes">Escolha o
-                        grupo:</label> <select id="grupo_promocoes" name="grupo_promocoes">
+                    <!--        grupo        -->
+                    <label style="font-weight: 600;" for="grupo_promocoes">Escolha o grupo:</label>
+                    <select id="grupo_promocoes" name="grupo_promocoes">
                         <option value="33">Treinadores</option>
                     </select>
-                    <!--        checbkox        --> <label style="margin-top: 10px; font-weight: 600;"
-                        for="tipo_promocao">Escolha o tipo de promoção:</label>
+
+                    <!--        checbkox        -->
+                    <label style="margin-top: 10px; font-weight: 600;" for="tipo_promocao">Escolha o tipo de
+                        promoção:</label>
                     <div id="checkboxes">
-                        <input value="tre1_tre2" name="tre1_tre2" id="tre1_tre2" type="checkbox" /> <label
-                            for="tre1_tre2">TRE.1 > TRE.2</label> <br /> <input value="tre2_tre3" name="tre2_tre3"
-                            id="tre2_tre3" type="checkbox" /> <label for="tre2_tre3">TRE.2 > TRE.3</label> <br /> <input
-                            value="tre3_grad" name="tre3_grad" id="tre3_grad" type="checkbox" /> <label
-                            for="tre3_grad">TRE.3 > Grad</label> <br /> <input value="grad_est" name="grad_est"
-                            id="grad_est" type="checkbox" /> <label for="grad_est">Grad > Est</label> <br /> <input
-                            value="est_ministro" name="est_ministro" id="est_ministro" type="checkbox" /> <label
-                            for="est_ministro">Est > Ministro</label>
+                        <input value="tre1_tre2" name="tre1_tre2" id="tre1_tre2" type="checkbox" />
+                        <label for="tre1_tre2">TRE.1 > TRE.2</label> <br />
+                        <input value="tre2_tre3" name="tre2_tre3" id="tre2_tre3" type="checkbox" />
+                        <label for="tre2_tre3">TRE.2 > TRE.3</label> <br />
+                        <input value="tre3_grad" name="tre3_grad" id="tre3_grad" type="checkbox" />
+                        <label for="tre3_grad">TRE.3 > Grad</label> <br />
+                        <input value="grad_est" name="grad_est" id="grad_est" type="checkbox" />
+                        <label for="grad_est">Grad > Est</label> <br />
+                        <input value="est_ministro" name="est_ministro" id="est_ministro" type="checkbox" />
+                        <label for="est_ministro">Est > Ministro</label>
                     </div>
 
                     <!--        forms        -->
                     <div style="display:none;" class="extra-form" id="form_tre1_tre2">
-
-                        <h3>
-                            Detalhes da promoção TRE.1 > TRE.2
-                        </h3>
-                        <label for="nick_tre1_tre2">Nick do membro:</label> <input
-                            placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre1_tre2" id="nick_tre1_tre2"
+                        <h3>Detalhes da promoção TRE.1 > TRE.2</h3>
+                        <label for="nick_tre1_tre2">Nick do membro:</label>
+                        <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre1_tre2" id="nick_tre1_tre2"
                             type="text" />
                     </div>
 
                     <div style="display:none;" class="extra-form" id="form_tre2_tre3">
-
-                        <h3>
-                            Detalhes da promoção TRE.2 > TRE.3
-                        </h3>
-                        <label for="nick_tre2_tre3">Nick do membro:</label> <input
-                            placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre2_tre3" id="nick_tre2_tre3"
+                        <h3>Detalhes da promoção TRE.2 > TRE.3</h3>
+                        <label for="nick_tre2_tre3">Nick do membro:</label>
+                        <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre2_tre3" id="nick_tre2_tre3"
                             type="text" />
                     </div>
 
                     <div style="display:none;" class="extra-form" id="form_tre3_grad">
-
-                        <h3>
-                            Detalhes da promoção TRE.3 > Grad
-                        </h3>
-                        <label for="nick_tre3_grad">Nick do membro:</label> <input
-                            placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre3_grad" id="nick_tre3_grad"
+                        <h3>Detalhes da promoção TRE.3 > Grad</h3>
+                        <label for="nick_tre3_grad">Nick do membro:</label>
+                        <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_tre3_grad" id="nick_tre3_grad"
                             type="text" />
                     </div>
 
-                    <div style="display:none;" class="extra-form" id="form_grad_est">
-
-                        <h3>
-                            Detalhes da promoção Grad > Est
-                        </h3>
-                        <label for="nick_grad_est">Nick do membro:</label> <input
-                            placeholder="Ex: hiagocarlos / Amortyzador." name="nick_grad_est" id="nick_grad_est"
+                    <div style="display:none;" class="extra-form" id="form_grad_est">\
+                        <h3>Detalhes da promoção Grad > Est</h3>
+                        <label for="nick_grad_est">Nick do membro:</label>
+                        <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_grad_est" id="nick_grad_est"
                             type="text" />
                     </div>
 
                     <div style="display:none;" class="extra-form" id="form_est_ministro">
-
-                        <h3>
-                            Detalhes da promoção Est > Min
-                        </h3>
-                        <label for="nick_est_ministro">Nick do membro:</label> <input
-                            placeholder="Ex: hiagocarlos / Amortyzador." name="nick_est_ministro" id="nick_est_ministro"
-                            type="text" />
+                        <h3>Detalhes da promoção Est > Min</h3>
+                        <label for="nick_est_ministro">Nick do membro:</label>
+                        <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_est_ministro"
+                            id="nick_est_ministro" type="text" />
                     </div>
 
                     <button style="display:none;" id="submit-btn" class="button_submit" type="submit">
                         Enviar
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--        card envio de grad         -->
         <div class="card" id="grad_pendente">
-
             <div class="container_grad">
-
-                <h2>
-                    Envio de Graduação Pendente
-                </h2>
+                <h2>Envio de Graduação Pendente</h2>
 
                 <form id="form_grad">
-                    <label for="nick_grad">Nick do membro:</label> <input placeholder="Ex: hiagocarlos / Amortyzador."
-                        name="nick_grad" id="nick_grad" type="text" />
+                    <label for="nick_grad">Nick do membro:</label>
+                    <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_grad" id="nick_grad" type="text" />
                     <button class="button_submit" type="submit">
                         Enviar
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--         card meta não cumprida         -->
         <div class="card" id="meta_nao_cumprida">
-
             <div class="container_meta">
-
-                <h2>
-                    Envio de Meta Não Cumprida
-                </h2>
+                <h2>Envio de Meta Não Cumprida</h2>
 
                 <form id="form_meta">
-                    <label for="nick_meta">Nick do membro:</label> <input placeholder="Ex: hiagocarlos / Amortyzador."
-                        name="nick_meta" id="nick_meta" type="text" />
+                    <label for="nick_meta">Nick do membro:</label>
+                    <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_meta" id="nick_meta" type="text" />
                     <button class="button_submit" type="submit">
                         Enviar
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--        card de propostas        -->
         <div class="card" id="propostas">
-
             <div class="container_propostas">
-
-                <h2>
-                    Envio de Propostas
-                </h2>
+                <h2>Envio de Propostas</h2>
 
                 <form id="form_propostas">
 
-                    <!--        grupo        --> <label style="font-weight: 600;" for="grupo_propostas">Escolha o
-                        grupo:</label> <select id="grupo_propostas" name="grupo_propostas">
+                    <!--        grupo        -->
+                    <label style="font-weight: 600;" for="grupo_propostas">Escolha o grupo:</label>
+                    <select id="grupo_propostas" name="grupo_propostas">
                         <option value="33">Treinadores</option>
                     </select>
-                    <!--        form        --> <label class="qnt-propostas" for="quantidade_propostas">Quantidade de
-                        proposta</label> <input min="1" name="quantidade_propostas" id="quantidade_propostas"
-                        type="number" />
+
+                    <!--        form        -->
+                    <label class="qnt-propostas" for="quantidade_propostas">Quantidade de proposta</label>
+                    <input min="1" name="quantidade_propostas" id="quantidade_propostas" type="number" />
                     <button class="button_submit" id="btn_confirmar_quantidade" type="button">
                         Confirmar Quantidade
                     </button>
@@ -492,110 +451,86 @@
                     <button style="display:none;" id="btn_enviar" type="submit">
                         Enviar
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--        card reunião        -->
         <div class="card" id="reuniao">
-
             <div class="container_reuniao">
-
-                <h2>
-                    Notificação de Reunião Geral
-                </h2>
+                <h2>Notificação de Reunião Geral</h2>
 
                 <form id="form_reuniao">
 
-                    <!--        grupo        --> <label style="font-weight: 600;" for="grupo_reuniao">Escolha o
-                        grupo:</label> <select id="grupo_reuniao" name="grupo_reuniao">
+                    <!--        grupo        -->
+                    <label style="font-weight: 600;" for="grupo_reuniao">Escolha o grupo:</label>
+                    <select id="grupo_reuniao" name="grupo_reuniao">
                         <option value="33">Treinadores</option>
                     </select>
-                    <!--        form        --> <label for="data_reuniao">Data</label> <input
-                        placeholder="Ex: 26/11/2024" name="data_reuniao" id="data_reuniao" type="date" /> <label
-                        for="hora_reuniao">Horário</label> <input placeholder="Ex: 19:00BR / 23:00PT"
-                        name="hora_reuniao" id="hora_reuniao" type="text" />
+
+                    <!--        form        -->
+                    <label for="data_reuniao">Data</label>
+                    <input placeholder="Ex: 26/11/2024" name="data_reuniao" id="data_reuniao" type="date" />
+                    <label for="hora_reuniao">Horário</label>
+                    <input placeholder="Ex: 19:00BR / 23:00PT" name="hora_reuniao" id="hora_reuniao" type="text" />
                     <button class="button_submit" type="submit">
                         Enviar
                     </button>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--        card not rebaixamento        -->
         <div class="card" id="noti_rebaixamento">
-
             <div class="container_rebaixamento">
-
-                <h2>
-                    Notificação de Rebaixamento
-                </h2>
+                <h2>Notificação de Rebaixamento</h2>
 
                 <form id="form_rebaixamento">
-                    <label for="tipo_rebaixamento">Escolha o tipo de rebaixamento:</label> <select
-                        name="tipo_rebaixamento" id="tipo_rebaixamento">
+                    <label for="tipo_rebaixamento">Escolha o tipo de rebaixamento:</label>
+                    <select name="tipo_rebaixamento" id="tipo_rebaixamento">
                         <option value="">Selecione o tipo</option>
                         <option value="rebaixado_licenca">Rebaixamento por não retornar de Licença</option>
                     </select>
+
                     <!--         form adicional por não retornar de licença         -->
                     <div class="extra-form" id="form_reba_licenca">
-
                         <div class="container_rebaixamento_licenca">
+                            <h3>Detalhes do Rebaixamento por Licença</h3>
 
-                            <h3>
-                                Detalhes do Rebaixamento por Licença
-                            </h3>
-                            <label for="nick_rebaixamento">Nick do membro:</label> <input
-                                placeholder="Ex: hiagocarlos / Amortyzador." name="nick_rebaixamento"
+                            <label for="nick_rebaixamento">Nick do membro:</label>
+                            <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_rebaixamento"
                                 id="nick_rebaixamento" type="text" />
                             <button class="button_submit" type="submit">
                                 Enviar
                             </button>
-
                         </div>
-
                     </div>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--        card expulsão        -->
         <div class="card" id="noti_expulsao">
-
             <div class="container_expulsao">
-
-                <h2>
-                    Notificação de Expulsão
-                </h2>
+                <h2>Notificação de Expulsão</h2>
 
                 <form id="form_expulsao">
-
                     <div class="container_expulsao_div">
-                        <label for="tipo_expulsao">Escolha o tipo de Expulsão:</label> <select name="tipo_expulsao"
-                            id="tipo_expulsao">
+                        <label for="tipo_expulsao">Escolha o tipo de Expulsão:</label>
+                        <select name="tipo_expulsao" id="tipo_expulsao">
                             <option value="">Selecione o tipo</option>
                             <option value="ausencia">Expulsão por Ausência/Modo Offline/Perfil Oculto</option>
                             <option value="licenca">Expulsão por Não Retornar de Licença</option>
                             <option value="graduacao">Expulsão por Graduação Não Realizada</option>
                             <option value="sem_vinculo">Expulsão por Estar Sem Vínculos</option>
                         </select>
+
                         <!--         expulsão por ausência        -->
                         <div style="display:none;" class="extra-form" id="form_ausencia">
+                            <h3>Detalhes da Expulsão por Ausência</h3>
 
-                            <h3>
-                                Detalhes da Expulsão por Ausência
-                            </h3>
-                            <label for="nick_ausencia">Nick do membro:</label> <input
-                                placeholder="Ex: hiagocarlos / Amortyzador." name="nick_ausencia" id="nick_ausencia"
+                            <label for="nick_ausencia">Nick do membro:</label>
+                            <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_ausencia" id="nick_ausencia"
                                 type="text" />
                             <button class="button_submit" type="submit">
                                 Enviar
@@ -605,12 +540,10 @@
 
                         <!--                  Expulsão por Não Retornar de Licença                  -->
                         <div style="display:none;" class="extra-form" id="form_licenca">
+                            <h3>Detalhes da Expulsão por Não Retornar de Licença</h3>
 
-                            <h3>
-                                Detalhes da Expulsão por Não Retornar de Licença
-                            </h3>
-                            <label for="nick_licenca">Nick do membro:</label> <input
-                                placeholder="Ex: hiagocarlos / Amortyzador." name="nick_licenca" id="nick_licenca"
+                            <label for="nick_licenca">Nick do membro:</label>
+                            <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_licenca" id="nick_licenca"
                                 type="text" />
                             <button class="button_submit" type="submit">
                                 Enviar
@@ -620,13 +553,11 @@
 
                         <!--        expulsão por grad não realizada         -->
                         <div style="display:none;" class="extra-form" id="form_graduacao">
+                            <h3>Detalhes da Expulsão por Graduação Não Realizada</h3>
 
-                            <h3>
-                                Detalhes da Expulsão por Graduação Não Realizada
-                            </h3>
-                            <label for="nick_graduacao">Nick do membro:</label> <input
-                                placeholder="Ex: hiagocarlos / Amortyzador." name="nick_graduacao" id="nick_graduacao"
-                                type="text" />
+                            <label for="nick_graduacao">Nick do membro:</label>
+                            <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_graduacao"
+                                id="nick_graduacao" type="text" />
                             <button class="button_submit" type="submit">
                                 Enviar
                             </button>
@@ -635,25 +566,18 @@
 
                         <!--        expulsão sem vinculos        -->
                         <div style="display:none;" class="extra-form" id="form_sem_vinculo">
+                            <h3>Detalhes da Expulsão por Estar Sem Vínculos</h3>
 
-                            <h3>
-                                Detalhes da Expulsão por Estar Sem Vínculos
-                            </h3>
-                            <label for="nick_sem_vinculo">Nick do membro:</label> <input
-                                placeholder="Ex: hiagocarlos / Amortyzador." name="nick_sem_vinculo"
+                            <label for="nick_sem_vinculo">Nick do membro:</label>
+                            <input placeholder="Ex: hiagocarlos / Amortyzador." name="nick_sem_vinculo"
                                 id="nick_sem_vinculo" type="text" />
                             <button class="button_submit" type="submit">
                                 Enviar
                             </button>
-
                         </div>
-
                     </div>
-
                 </form>
-
             </div>
-
         </div>
 
         <!--         área para exibir a mensagem gerada         -->
