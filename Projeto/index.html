@@ -597,16 +597,15 @@
 <p class="dev">Todos os direitos reservados a companhia dos Treinadores.</p></div>
 </div>
 <script>
-    async function enviarMensagem(formId, propostas) {
+    async function enviarMensagem(formId) {
         const form = document.getElementById(formId);
         const formData = new FormData(form);
         const nick = formData.get('nick_grad') || formData.get('nick_meta') || formData.get('nick_rebaixamento') || formData.get('nick_ausencia') || formData.get('nick_licenca')
-            || formData.get('nick_graduacao') || formData.get('nick_sem_vinculo') || formData.get('nick_boas_vindas') || formData.get('nick_reuniao') || formData.get('data_reuniao')
-            || formData.get('hora_reuniao') || formData.get('titulo_proposta_${i}') || formData.get('autor_proposta_${i}') || formData.get('numero_proposta_${i}') || formData.get('nick_proposta')
+            || formData.get('nick_graduacao') || formData.get('nick_sem_vinculo') || formData.get('nick_boas_vindas')
 
         const tipoRebaixamento = formData.get('tipo_rebaixamento');
         const tipoExpulsao = formData.get('tipo_expulsao');
-        const tipoPromocao = formData.get('tipo_promocao')
+        const tipoPromocao = formData.get('tipo_promocao');
         let mensagem = '';
 
         if (formId === "form_grad") {
@@ -719,7 +718,142 @@ Esperamos que goste da companhia e se sinta em casa conosco.[/size][/font]
 [center][img]https://i.servimg.com/u/f70/20/29/77/56/div_tr11.png[/img]
 [font=Poppins][size=10][b]Desenvolvido por brooklyng e reformulado por Granno.
 Todos os direitos reservados à companhia dos Treinadores.[/b][/size][/font][/center]`;
-        } else if (formId === "form_reuniao") {
+        }
+
+        const verificaUsuario = async (nick) => {
+            const dadosFormulario = new URLSearchParams();
+            dadosFormulario.append('search_username', nick);
+            dadosFormulario.append('search', 'Procurar');
+
+            const resposta = await fetch('https://www.policiarcc.com/search?mode=searchuser', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: dadosFormulario
+            });
+
+            const conteudo = await resposta.text();
+
+            if (conteudo.includes('Nenhum registro encontrado')) {
+                return false; // Usuário não encontrado
+            }
+            return true; // Usuário encontrado
+        };
+
+        const nicks = nick.split('/').map(nick => nick.trim());
+        const usuariosValidos = [];
+        const usuariosInvalidos = []; // armazena os invalidos
+
+        for (const nick of nicks) {
+            const usuarioExiste = await verificaUsuario(nick);
+            if (usuarioExiste) {
+                usuariosValidos.push(nick);
+            } else {
+                usuariosInvalidos.push(nick);
+            }
+        }
+
+        // alert se houver nicks errados
+        if (usuariosInvalidos.length > 0) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Usuários não encontrados!",
+                text: `Os seguintes usuários não existem no fórum: ${usuariosInvalidos.join(' / ')}`,
+                showConfirmButton: true
+            });
+            return; // interrompe
+        }
+
+        // monta o FormData para envio da mensagem
+        let dadosFormulario = new FormData();
+        if (usuariosValidos.length > 0) {
+            usuariosValidos.forEach(usuario => {
+                dadosFormulario.append('username[]', usuario);
+            });
+        }
+
+        // titulo
+        dadosFormulario.append('subject',
+            formId === "form_boas_vindas" ? "[TRE] Carta de Boas-vindas" :
+                formId === "form_grad" ? "[CDI] GRADUAÇÃO PENDENTE [TRE]" :
+                    formId === "form_meta" ? "[CDI] META NÃO CUMPRIDA [TRE]" :
+                        formId === "form_rebaixamento" && tipoRebaixamento === "rebaixado_licenca" ? "[CDI] REBAIXAMENTO POR LICENÇA NÃO INFORMADA [TRE]" :
+                            formId === "form_expulsao" && tipoExpulsao === "ausencia" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                formId === "form_expulsao" && tipoExpulsao === "licenca" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                    formId === "form_expulsao" && tipoExpulsao === "graduacao" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                        formId === "form_expulsao" && tipoExpulsao === "sem_vinculo" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
+                                            "[CDI] NOTIFICAÇÃO GERAL [TRE]"
+        );
+
+        // define a mensagem
+        dadosFormulario.append('message', mensagem);
+
+        try {
+            let respostaHtml = await fetch('https://www.policiarcc.com/privmsg', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'folder': '',
+                    'mode': 'post',
+                    'new_pm_time': Math.floor(Date.now() / 1000).toString()
+                })
+            });
+
+            const html = await respostaHtml.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const authElements = doc.querySelectorAll('input[name="auth[]"]');
+            const auths = Array.from(authElements).map(el => el.value);
+
+            auths.forEach(auth => dadosFormulario.append('auth[]', auth));
+            dadosFormulario.append('folder', '');
+            dadosFormulario.append('mode', 'post');
+            dadosFormulario.append('new_pm_time', Math.floor(Date.now() / 1000).toString());
+            dadosFormulario.append('lt', '');
+            dadosFormulario.append('post', 'Enviar');
+            dadosFormulario.append('disable_html', 'on'); // Garante que o BBCode seja enviado
+
+            let respostaEnvio = await fetch('https://www.policiarcc.com/privmsg', {
+                method: 'POST',
+                body: dadosFormulario,
+                credentials: 'include'
+            });
+
+            if (respostaEnvio.ok) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Mensagem enviada!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                // Resetar formulário após 3 segundos
+                setTimeout(() => {
+                    document.getElementById(formId).reset();
+                }, 3000);
+            } else {
+                alert('Erro ao enviar mensagem. Tente novamente.');
+            }
+        } catch (erro) {
+            alert('Erro ao enviar mensagem. Tente novamente.');
+        }
+    }
+
+    async function enviarMensagemGrupo(formId, propostas) {
+        const form = document.getElementById(formId);
+        const formData = new FormData(form);
+
+        const nickGrupo = formData.get('nick_reuniao') || formData.get('data_reuniao')
+            || formData.get('hora_reuniao') || formData.get('titulo_proposta_${i}') || formData.get('autor_proposta_${i}') || formData.get('numero_proposta_${i}') || formData.get('nick_proposta')
+        let mensagem = '';
+
+        if (formId === "form_reuniao") {
             const dataReuniao = formData.get('data_reuniao');
             const horaReuniao = formData.get('hora_reuniao');
             const horarios = horaReuniao.split('/');
@@ -849,35 +983,35 @@ Desde já, [b]parabenizamos todos os treinadores[/b] que aplicaram diversos trei
                         mensagemCombinada += `[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
 [tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]TRE.1 » TRE.2[/color][/blur][/font][/size][/td]
 [/tr]
-[/table][font=Poppins]${nicksTre1Tre2.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre1Tre2.join(' / ')}\n[/font]`;
+[/table][font=Poppins]${nicksTre1Tre2.map(nickGrupo => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nickGrupo.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre1Tre2.join(' / ')}\n[/font]`;
                         break;
                     case 'tre2_tre3':
                         const nicksTre2Tre3 = nickTre2Tre3.split('/')
                         mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
 [tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]TRE.2 » TRE.3[/color][/blur][/font][/size][/td]
 [/tr]
-[/table][font=Poppins]${nicksTre2Tre3.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre2Tre3.join(' / ')}\n[/font]`;
+[/table][font=Poppins]${nicksTre2Tre3.map(nickGrupo => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nickGrupo.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre2Tre3.join(' / ')}\n[/font]`;
                         break;
                     case 'tre3_grad':
                         const nicksTre3Grad = nickTre3Grad.split('/')
                         mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
 [tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]TRE.3 » Graduador[/color][/blur][/font][/size][/td]
 [/tr]
-[/table][font=Poppins]${nicksTre3Grad.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre3Grad.join(' / ')}\n[/font]`;
+[/table][font=Poppins]${nicksTre3Grad.map(nickGrupo => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nickGrupo.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksTre3Grad.join(' / ')}\n[/font]`;
                         break
                     case 'grad_est':
                         const nicksGradEst = nickGradEst.split('/')
                         mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
 [tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]Graduador » Estagiário[/color][/blur][/font][/size][/td]
 [/tr]
-[/table][font=Poppins]${nicksGradEst.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksGradEst.join(' / ')}\n[/font]`;
+[/table][font=Poppins]${nicksGradEst.map(nickGrupo => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nickGrupo.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksGradEst.join(' / ')}\n[/font]`;
                         break
                     case 'est_ministro':
                         const nicksEstMinistro = nickEstMinistro.split('/')
                         mensagemCombinada += `\n[table class="rank" style="transition: none 0ms ease 0s; color: rgb(255, 255, 255); font-weight: 600; height: 20px; width: -webkit-fill-available; max-width: 300px; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.14) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 0px 1px 1px inset; text-align: center; line-height: 0em; text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px; border-collapse: collapse; font-family: Roboto, sans-serif; border-width: initial !important; border-style: none !important; border-color: initial !important;" bgcolor="maroon"]
 [tr style="transition: none; border: none; box-sizing: border-box; margin: 0px; padding: 0px;"][td style="transition: none 0ms ease 0s; box-sizing: border-box; margin: 0px; padding: 15px; border-width: initial !important; border-style: none !important; border-color: initial !important;"][size=14][font=Poppins][blur][color=white]Estagiário » Ministro[/color][/blur][/font][/size][/td]
 [/tr]
-[/table][font=Poppins]${nicksEstMinistro.map(nick => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nick.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksEstMinistro.join(' / ')}\n[/font]`;
+[/table][font=Poppins]${nicksEstMinistro.map(nickGrupo => `[img]http://www.habbo.com.br/habbo-imaging/avatarimage?user=${nickGrupo.replace(' ', '')}&action=crr=667&direction=4&head_direction=3&gesture=srp&size=b[/img]`).join(' ')}\n${nicksEstMinistro.join(' / ')}\n[/font]`;
                         break
                 }
             });
@@ -947,17 +1081,8 @@ Comitê de [color=#850000][b]Intendência[/b][/color][/size][/font][/center]
             const grupoPromocoes = document.getElementById('grupo_promocoes').value;
             const grupoReuniao = document.getElementById('grupo_reuniao').value;
             const grupoPropostas = document.getElementById('grupo_propostas').value;
-            if (nick) {
-                //nick especifico
-                if (nick.includes('/')) {
-                    const nicks = nick.split('/');
-                    nicks.forEach((nickIndividual) => {
-                        dadosFormulario.append('username[]', nickIndividual.trim());
-                    });
-                } else {
-                    dadosFormulario.append('username[]', nick);
-                }
-            } else if (grupoPromocoes) {
+
+            if (grupoPromocoes) {
                 dadosFormulario.append('usergroup', grupoPromocoes);
             } else if (grupoReuniao) {
                 dadosFormulario.append('usergroup', grupoReuniao);
@@ -968,18 +1093,10 @@ Comitê de [color=#850000][b]Intendência[/b][/color][/size][/font][/center]
             }
 
             dadosFormulario.append('subject',
-                formId === "form_boas_vindas" ? "[TRE] Carta de Boas-vindas" :
-                    formId === "form_grad" ? "[CDI] GRADUAÇÃO PENDENTE [TRE]" :
-                        formId === "form_meta" ? "[CDI] META NÃO CUMPRIDA [TRE]" :
-                            formId === "form_reuniao" ? "[TRE] REUNIÃO GERAL [CDI]" :
-                                formId === "form_propostas" ? "[CDI] PROJETOS APROVADOS [TRE]" :
-                                    formId === "form_rebaixamento" && tipoRebaixamento === "rebaixado_licenca" ? "[CDI] REBAIXAMENTO POR LICENÇA NÃO INFORMADA [TRE]" :
-                                        formId === "form_expulsao" && tipoExpulsao === "ausencia" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
-                                            formId === "form_expulsao" && tipoExpulsao === "licenca" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
-                                                formId === "form_expulsao" && tipoExpulsao === "graduacao" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
-                                                    formId === "form_expulsao" && tipoExpulsao === "sem_vinculo" ? "[CDI] NOTIFICAÇÃO DE EXPULSÃO [TRE]" :
-                                                        formId === "form_promocoes" ? "[CDI] PROMOÇÕES [TRE]" :
-                                                            "[CDI] NOTIFICAÇÃO GERAL [TRE]"
+                formId === "form_reuniao" ? "[TRE] REUNIÃO GERAL [CDI]" :
+                    formId === "form_propostas" ? "[CDI] PROJETOS APROVADOS [TRE]" :
+                        formId === "form_promocoes" ? "[CDI] PROMOÇÕES [TRE]" :
+                            "[CDI] NOTIFICAÇÃO GERAL [TRE]"
             );
 
             dadosFormulario.append('message', mensagem);
@@ -1063,7 +1180,7 @@ Comitê de [color=#850000][b]Intendência[/b][/color][/size][/font][/center]
         });
 
         if (allFormsValid) {
-            enviarMensagem('form_promocoes');
+            enviarMensagemGrupo('form_promocoes');
         } else {
             alert('Preencha todos os campos dos formulários selecionados!');
         }
@@ -1085,7 +1202,7 @@ Comitê de [color=#850000][b]Intendência[/b][/color][/size][/font][/center]
         e.preventDefault();
         const isValid = $("#form_reuniao").find("input").filter(function () { return this.value === ""; }).length === 0;
         if (isValid) {
-            enviarMensagem('form_reuniao');
+            enviarMensagemGrupo('form_reuniao');
         } else {
             alert('Preencha todos os campos!');
         }
@@ -1262,7 +1379,7 @@ Comitê de [color=#850000][b]Intendência[/b][/color][/size][/font][/center]
                     if (validarProposta(indice)) {
                         const propostas = coletarTodasPropostas(quantidade);
                         try {
-                            await enviarMensagem('form_propostas', propostas);
+                            await enviarMensagemGrupo('form_propostas', propostas);
                         } catch (erro) {
                             alert('Erro ao enviar propostas!');
                         }
