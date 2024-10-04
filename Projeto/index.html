@@ -819,58 +819,14 @@ Esperamos que goste da companhia e se sinta em casa conosco.[/size][/font]
 Todos os direitos reservados à companhia dos Treinadores.[/b][/size][/font][/center]`;
         }
 
-        const verificaUsuario = async (nick) => {
-            const dadosFormulario = new URLSearchParams();
-            dadosFormulario.append('search_username', nick);
-            dadosFormulario.append('search', 'Procurar');
-
-            const resposta = await fetch('https://www.policiarcc.com/search?mode=searchuser', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: dadosFormulario
-            });
-
-            const conteudo = await resposta.text();
-
-            if (conteudo.includes('Nenhum registro encontrado')) {
-                return false; // Usuário não encontrado
-            }
-            return true; // Usuário encontrado
-        };
-
         const nicks = nick.split('/').map(nick => nick.trim());
-        const usuariosValidos = [];
-        const usuariosInvalidos = []; // armazena os invalidos
 
-        for (const nick of nicks) {
-            const usuarioExiste = await verificaUsuario(nick);
-            if (usuarioExiste) {
-                usuariosValidos.push(nick);
-            } else {
-                usuariosInvalidos.push(nick);
-            }
-        }
-
-        // alert se houver nicks errados
-        if (usuariosInvalidos.length > 0) {
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Usuários não encontrados!",
-                text: `Os seguintes usuários não existem no fórum: ${usuariosInvalidos.join(' / ')}`,
-                showConfirmButton: true
-            });
-            return; // interrompe
-        }
 
         // monta o FormData para envio da mensagem
         let dadosFormulario = new FormData();
-        if (usuariosValidos.length > 0) {
-            usuariosValidos.forEach(usuario => {
-                dadosFormulario.append('username[]', usuario);
+        if (nicks.length > 0) {
+            nicks.forEach(nick => {
+                dadosFormulario.append('username[]', nick);
             });
         }
 
